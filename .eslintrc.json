@@ -12,7 +12,7 @@
     "semi": ["error", "never"],
     "comma-dangle": "off",
     "object-curly-newline": "off",
-    "arrow-parens": "as-needed",
+    "arrow-parens": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/jsx-no-bind": [
       1,
