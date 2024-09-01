@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 
+import { useEffect, useState } from 'react'
 import PageDefault from '../../components/PageDefault'
-import { useState } from 'react'
 import FormField from '../../components/FormField'
+import Button from '../../components/Button'
 
 function CadastroCategoria() {
   const defaultValues = {
@@ -27,9 +28,24 @@ function CadastroCategoria() {
     alterarCampoDaCategoria(element.getAttribute('name'), element.value)
   }
 
+  useEffect(() => {
+    const URL = window.location.hostname.includes('localhost')
+      ? 'http://localhost:8080/categorias'
+      : 'https://alura-aluraflix.onrender.com/categorias'
+
+    fetch(URL).then(async serverResponse => {
+      const response = await serverResponse.json()
+
+      setCategorias([...response])
+    })
+  }, [])
+
   return (
     <PageDefault>
-      <h1>Cadastro de Categoria: {categoria.nome}</h1>
+      <h1>
+        Cadastro de Categoria:
+        {categoria.nome}
+      </h1>
 
       <form
         onSubmit={event => {
@@ -47,29 +63,26 @@ function CadastroCategoria() {
           onChange={handleInputChange}
         />
 
-        <div>
-          <label>
-            Descrição:
-            <textarea
-              name="descricao"
-              value={categoria.descricao}
-              onChange={event => {
-                alterarCampoDaCategoria('descricao', event.target.value)
-              }}
-            />
-          </label>
-        </div>
+        <FormField
+          label="Descrição"
+          type="textarea"
+          name="descricao"
+          value={categoria.descricao}
+          onChange={handleInputChange}
+        />
 
         <FormField
           label="Cor"
-          name={categoria.cor}
+          name="cor"
           type="color"
           onChange={handleInputChange}
           value={categoria.cor}
         />
 
-        <button>Cadastrar</button>
+        <Button>Cadastrar</Button>
       </form>
+
+      {categorias.length === 0 && <div>Loading...</div>}
 
       <ul>
         {categorias.map((categoria, index) => (
