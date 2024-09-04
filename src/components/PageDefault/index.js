@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import Footer from '../Footer'
 import Menu from '../Menu'
@@ -9,13 +9,18 @@ const Main = styled.main`
   flex: 1;
   padding-top: 50px;
   padding: 50px 5% 0;
+
+  ${({ paddingAll }) =>
+    css`
+      padding: ${paddingAll};
+    `}
 `
 
-function PageDefault({ children }) {
+function PageDefault({ children, paddingAll }) {
   return (
     <>
       <Menu />
-      <Main>{children}</Main>
+      <Main paddingAll={paddingAll}>{children}</Main>
       <Footer />
     </>
   )

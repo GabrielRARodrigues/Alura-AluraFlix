@@ -5,6 +5,8 @@ import PageDefault from '../../components/PageDefault'
 import FormField from '../../components/FormField'
 import Button from '../../components/Button'
 
+import useForm from '../../hooks/useForm'
+
 function CadastroCategoria() {
   const defaultValues = {
     nome: '',
@@ -12,21 +14,13 @@ function CadastroCategoria() {
     cor: ''
   }
 
+  const {
+    handleInputChange,
+    values: categoria,
+    clearForm
+  } = useForm(defaultValues)
+
   const [categorias, setCategorias] = useState([])
-  const [categoria, setCategoria] = useState({ ...defaultValues })
-
-  function alterarCampoDaCategoria(chave, valor) {
-    setCategoria({
-      ...categoria,
-      [chave]: valor
-    })
-  }
-
-  function handleInputChange(event) {
-    const element = event.target
-
-    alterarCampoDaCategoria(element.getAttribute('name'), element.value)
-  }
 
   useEffect(() => {
     const URL = window.location.hostname.includes('localhost')
@@ -52,7 +46,7 @@ function CadastroCategoria() {
           event.preventDefault()
 
           setCategorias([...categorias, categoria])
-          setCategoria({ ...defaultValues })
+          clearForm()
         }}
       >
         <FormField
